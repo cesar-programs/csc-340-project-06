@@ -20,5 +20,3 @@ Zoomies and Swoopies live in a world composed of a 30 x 30 grid of cells. Only o
 - [ ] Create a class hierarchy with the base class Organism and two derived classes, Zoomie and Swoopie.
 - [ ] Initialize the small world with 5 Swoopies and 100 Zoomies.
 - [ ] After each time step, prompt the user to press Enter to move to the next time step.
-
-## DesignDoc Notes
