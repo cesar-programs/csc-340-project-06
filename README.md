@@ -6,9 +6,9 @@ This is the final group project for the CSC 340 course in Spring 2024. The goal 
 
 ## Group Members
 
-Randolf Uy
-Avinh Huynh
-Cesar A. Herrera
+- Randolf Uy  
+- Avinh Huynh  
+- Cesar A. Herrera  
 
 ## Project Description
 
