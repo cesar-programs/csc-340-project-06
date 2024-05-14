@@ -11,12 +11,21 @@ World::~World() {
     // Implementation goes here
 }
 
+// Return the organism at a given location in the grid
 Organism* World::getAt(int x, int y) {
-    // Implementation goes here
+    if (x < 0 || x >= WORLDSIZE || y < 0 || y >= WORLDSIZE) {
+        return nullptr;
+    }
+    return grid[x][y];
 }
 
+// Set the organism at a given location in the grid
 void World::setAt(int x, int y, Organism *org) {
     // Implementation goes here
+    if (x < 0 || x >= WORLDSIZE || y < 0 || y >= WORLDSIZE) {
+        return;
+    }
+    grid[x][y] = org;
 }
 
 void World::Display() {

@@ -36,6 +36,7 @@ void Zoomie::move()
 int Zoomie::getType()
 {
     // Return Zoomie-specific type identifier here
+    return 1;
 }
 
 bool Zoomie::starve()

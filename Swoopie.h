@@ -9,6 +9,7 @@
  */
 
 #include "Organism.h"
+#include <vector>
 
 class Swoopie : public Organism
 {
@@ -27,4 +28,5 @@ public:
 
 protected:
 	// Swoopie-specific variables can go here, if any
+
 };

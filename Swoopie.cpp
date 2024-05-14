@@ -28,12 +28,14 @@ void Swoopie::breed()
 // Note that a Swoopie cannot eat other Swoopies.
 void Swoopie::move()
 {
+    checkAdjacentZoomie();
     // Implementation of Swoopie's movement logic here
 }
 
 int Swoopie::getType()
 {
     // Return Swoopie-specific type identifier here
+    return 2;
 }
 
 // Starve. If a Swoopie has not eaten a Zoomie within the last three time steps, 
@@ -41,5 +43,13 @@ int Swoopie::getType()
 // The Swoopie should then be removed from the grid of cells.
 bool Swoopie::starve()
 {
+
     // Implementation of Swoopie's starvation logic here
+}
+
+bool Swoopie::checkPeripheral() {
+    // Check if there is an adjacent Zoomie
+    // If there is, move to that cell and eat the Zoomie
+    // Return true if a Zoomie was eaten, false otherwise
+
 }

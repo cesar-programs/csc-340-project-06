@@ -11,6 +11,8 @@
  */
 
 #include "World.h"
+#include <vector>
+#include <iostream>
 
 class Organism
 {
@@ -23,9 +25,12 @@ public:
         virtual void move() = 0;        // Rules to move the critter
         virtual int getType() =0;       // Return if Swoopie or Zoomie
         virtual bool starve() = 0;      // Determine if organism starves
+        virtual void checkPeripheral(); // Check the four cardinal directions for Zoomie / Swoopie / Empty
+
 protected:
         int x,y;                        // Position in the world
         bool moved;                     // Bool to indicate if moved this turn
         int breedTicks;                 // Number of ticks since breeding
-        World *world;
+        World *world;                   // Pointer to the world
+        std::vector<int> peripheral; // Vector to store the presence of a Zoomie / Swoopie / Empty in each of the four cardinal directions
 };
