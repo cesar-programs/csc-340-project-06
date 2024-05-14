@@ -32,22 +32,25 @@ Time is simulated in time steps. Each critter performs some action at every time
 - Swoopies Tasks: getType()
 
 ## Description
-We have a 30x30 grid of cells. Each cell can be empty, contain a Zoomie, or contain a Swoopie.
-    - The world is enclosed, so a critter is not allowed to move off the edges of the world.
-    - Time is simulated in time steps. Each critter performs some action at every time step.
+We have a 30x30 grid of cells. Each cell can be empty, contain a Zoomie, or contain a Swoopie.  
+    - The world is enclosed, so a critter is not allowed to move off the edges of the world.  
+    - Time is simulated in time steps. Each critter performs some action at every time step.  
 
 Perception: 
-    - Philosophy: Streamlining of action based on perception.
-    - Each critter can perform 1 action each turn.
-        - This means that we have to update the perception of each critter before they perform their action.
-    - Why Perception? Perception makes it easier to determine what actions are valid or invalid based on the surrounding.
-        - For example, a critter cannot move to a cell that is already occupied by another critter.
-        - For example, a critter cannot move to a cell that is outside the world.
-    Perception Psuedo Code:
-           - For each critter in the world:
-                - Check the cells surrounding the critter.
-                - Update the critter's perception based on the cells surrounding it.
-                - Perform the critter's action.
+
+- Philosophy: Streamlining of action based on perception.  
+- Each critter can perform 1 action each turn.  
+  - This means that we have to update the perception of each critter before they perform their action.  
+  - Why Perception? Perception makes it easier to determine what actions are valid or invalid based on the surrounding.  
+    - For example, a critter cannot move to a cell that is already occupied by another critter.  
+    - For example, a critter cannot move to a cell that is outside the world.  
+        
+Perception Psuedo Code:  
+
+- For each critter in the world:  
+    - Check the cells surrounding the critter.  
+      - Update the critter's perception based on the cells surrounding it.  
+      - Perform the critter's action.  
 
 The turn is complete once all organisms in the grid are able to perform their action, world is updated, and perceptions are updated.
     
