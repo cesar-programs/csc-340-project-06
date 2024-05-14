@@ -23,14 +23,14 @@ public:
         ~Organism();
         virtual void breed() = 0;       // Whether or not to breed
         virtual void move() = 0;        // Rules to move the critter
-        virtual int getType() =0;       // Return if Swoopie or Zoomie
+        virtual int getType() =0;       // Return if Predator or Prey
         virtual bool starve() = 0;      // Determine if organism starves
-        virtual void checkPeripheral(); // Check the four cardinal directions for Zoomie / Swoopie / Empty
+        virtual void checkPeripheral(); // Check the four cardinal directions for Prey / Predator / Empty
 
 protected:
         int x,y;                        // Position in the world
         bool moved;                     // Bool to indicate if moved this turn
         int breedTicks;                 // Number of ticks since breeding
         World *world;                   // Pointer to the world
-        std::vector<int> peripheral; // Vector to store the presence of a Zoomie / Swoopie / Empty in each of the four cardinal directions
+        std::vector<int> peripheral; // Vector to store the presence of a Prey / Predator / Empty in each of the four cardinal directions
 };

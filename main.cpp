@@ -1,7 +1,7 @@
 #include "World.h"
 #include "Organism.h"
-#include "Swoopie.h"
-#include "Zoomie.h"
+#include "Predator.h"
+#include "Prey.h"
 
 int main()
 {
