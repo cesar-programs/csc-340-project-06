@@ -36,6 +36,8 @@ public:
     void pushPrey(Organism* prey); // Adds prey to Preys vector
     void SimulateOneStepPredators(); // Simulates one step for all predators
     void SimulateOneStepPreys(); // Simulates one step for all preys
+    void InitializeGame(); // Initializes the game by user inputting an amount of predators and preys
+    void GameLoop(); // Runs the game loop
 private:
     static constexpr int WORLDSIZE = 30;
     Organism* grid[WORLDSIZE][WORLDSIZE];

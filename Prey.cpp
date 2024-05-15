@@ -12,12 +12,13 @@ Prey::Prey()
 
 Prey::Prey(World *world, int x, int y) : Organism(world, x, y)
 {
-    // Additional initialization for Prey-specific attributes here, if they exist
+    world->setAt(x, y, this);
+    world->pushPrey(this);
 }
 
 Prey::~Prey()
 {
-    // Destruction/cleanup logic specific to Prey goes here, if needed
+    world->setAt(this->x, this->y, nullptr);
 }
 
 // Breed. If a Prey survives for three time steps,

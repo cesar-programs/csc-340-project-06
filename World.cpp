@@ -4,7 +4,8 @@
 #include "Prey.h"
 
 World::World() {
-    // Implementation goes here
+    InitializeGame();
+    GameLoop();
 }
 
 World::~World() {
@@ -78,4 +79,54 @@ void World::SimulateOneStepPreys() {
         prey->move();
         prey->breed();
     }
+}
+
+void World::GameLoop() {
+    while (true) {
+        std::cout << "Press Enter to simulate one step." << std::endl;
+        std::cin.get();
+        SimulateOneStep();
+    }
+}
+
+void World::InitializeGame() {
+    int predCount, preyCount;
+    
+    std::cout << "Enter the number of predators: ";
+    std::cin >> predCount;
+
+    std::cout << std::endl << "Enter the number of preys: ";
+    std::cin >> preyCount;
+
+    if (predCount + preyCount > WORLDSIZE * WORLDSIZE)
+    {
+        std::cout << "ERROR: The number of predators and preys exceeds the maximum number of organisms allowed in the world." << std::endl;
+    }
+
+    std::cout << std::endl << "Initializing game with " << predCount << " predators and " << preyCount << " preys." << std::endl;
+    
+    Predators.reserve(predCount);
+    Preys.reserve(preyCount);
+
+    for (int i = 0; i < predCount; i++) {
+        int x = rand() % WORLDSIZE;
+        int y = rand() % WORLDSIZE;
+        while (getAt(x, y) != nullptr) {
+            x = rand() % WORLDSIZE;
+            y = rand() % WORLDSIZE;
+        }
+        setAt(x, y, new Predator(this, x, y));
+    }
+
+    for (int i = 0; i < preyCount; i++) {
+        int x = rand() % WORLDSIZE;
+        int y = rand() % WORLDSIZE;
+        while (getAt(x, y) != nullptr) {
+            x = rand() % WORLDSIZE;
+            y = rand() % WORLDSIZE;
+        }
+        setAt(x, y, new Prey(this, x, y));
+    }
+
+    std::cout << "Game Initialized" << std::endl << std::endl;
 }

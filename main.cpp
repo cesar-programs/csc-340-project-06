@@ -5,5 +5,5 @@
 
 int main()
 {
-    
+    World();
 }

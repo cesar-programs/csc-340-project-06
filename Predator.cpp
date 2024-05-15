@@ -8,12 +8,13 @@ Predator::Predator()
 
 Predator::Predator(World *world, int x, int y) : Organism(world, x, y)
 {
-    // Additional initialization for Predator-specific attributes here, if any
+    world->setAt(x, y, this);
+    world->pushPrey(this);
 }
 
 Predator::~Predator()
 {
-    // Destruction/cleanup logic specific to Predator goes here, if any
+    world->setAt(this->x, this->y, nullptr);
 }
 
 // Breed. If a Predator survives for eight time steps,
@@ -37,10 +38,10 @@ void Predator::breed()
                 && newY >= 0 
                 && newY < world->WORLDSIZE
                 && world->getAt(newX, newY) == nullptr) {
-            world->setAt(newX, newY, this);
-            world->setAt(this->x, this->y, nullptr);
-            this->x = newX;
-            this->y = newY;
+            world->setAt(newX, newY, new Predator(world, newX, newY));
+            breedTicks = 0;
+            return;
+        } else if (adjacentCells.size() == 0) {
             breedTicks = 0;
             return;
         } else {
@@ -72,6 +73,8 @@ void Predator::move()
                 && cell.second < world->WORLDSIZE
                 && world->getAt(cell.first, cell.second) != nullptr
                 && world->getAt(cell.first, cell.second)->getType() == 1) {
+
+            delete world->getAt(cell.first, cell.second);
             world->setAt(cell.first, cell.second, this);
             world->setAt(this->x, this->y, nullptr);
             this->x = cell.first;
