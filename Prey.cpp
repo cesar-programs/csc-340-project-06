@@ -1,5 +1,10 @@
 #include "Prey.h"
 
+#include <cstdlib>
+#include <cmath>
+#include <utility>
+#include <vector>
+
 Prey::Prey()
 {
     // Initialize Prey-specific attributes here, if they exist
@@ -22,7 +27,36 @@ Prey::~Prey()
 // Once an offspring is produced,  a Prey cannot produce an offspring until three more time steps have elapsed.
 void Prey::breed()
 {
-    // Implementation of Prey's breeding logic here
+    while (breedTicks >= 3) {
+        std::vector<std::pair<int, int>> adjacentCells = {
+            std::make_pair(this->x, this->y + 1),
+            std::make_pair(this->x, this->y - 1),
+            std::make_pair(this->x + 1, this->y),
+            std::make_pair(this->x - 1, this->y)
+        };
+
+        int random = floor(rand() * adjacentCells.size());
+        int newX = adjacentCells[random].first;
+        int newY = adjacentCells[random].second;
+
+        if (newX >= 0 
+                && newX < world->WORLDSIZE 
+                && newY >= 0 
+                && newY < world->WORLDSIZE
+                && world->getAt(newX, newY) == nullptr) {
+            world->setAt(newX, newY, this);
+            world->setAt(this->x, this->y, nullptr);
+            this->x = newX;
+            this->y = newY;
+            breedTicks = 0;
+            return;
+        } else {
+            adjacentCells[random] = adjacentCells[adjacentCells.size() - 1];
+            adjacentCells.pop_back();
+        }
+    }
+
+    breedTicks++;
 }
 
 // Move. At every time step, randomly try to move up, down, left, or right. 
@@ -30,17 +64,42 @@ void Prey::breed()
 // move the Prey off the grid, then the Prey stays in the current cell.
 void Prey::move()
 {
-    // Implementation of Prey's movement logic here
+    int random = floor(rand() * 4);
+    int newX;
+    int newY;
+
+    switch (random) {
+    case 0:
+        newX = this->x;
+        newY = this->y + 1;
+        break;
+    case 1:
+        newX = this->x;
+        newY = this->y - 1;
+        break;
+    case 2:
+        newX = this->x + 1;
+        newY = this->y;
+        break;
+    case 3:
+        newX = this->x - 1;
+        newY = this->y;
+        break;
+    }
+
+    if (newX >= 0 
+            && newX < world->WORLDSIZE 
+            && newY >= 0 
+            && newY < world->WORLDSIZE
+            && world->getAt(newX, newY) == nullptr) {
+        world->setAt(newX, newY, this);
+        world->setAt(this->x, this->y, nullptr);
+        this->x = newX;
+        this->y = newY;
+    }
 }
 
 int Prey::getType()
 {
-    // Return Prey-specific type identifier here
     return 1;
-}
-
-bool Prey::starve()
-{
-    // Implementation of Prey's starvation logic here, if needed
-    // If Prey does not starve (since it's prey), this method might not be necessary and can even be removed
 }

@@ -28,5 +28,5 @@ public:
 
 protected:
 	// Predator-specific variables can go here, if any
-
+	int starveTicks;
 };

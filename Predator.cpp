@@ -1,4 +1,5 @@
 #include "Predator.h"
+#include <cmath>
 
 Predator::Predator()
 {
@@ -19,7 +20,36 @@ Predator::~Predator()
 // then at the end of the time step it will spawn off a new Predator in the same manner as the Prey.
 void Predator::breed()
 {
-    // Implementation of Predator's breeding logic here
+    while (breedTicks >= 3) {
+        std::vector<std::pair<int, int>> adjacentCells = {
+            std::make_pair(this->x, this->y + 1),
+            std::make_pair(this->x, this->y - 1),
+            std::make_pair(this->x + 1, this->y),
+            std::make_pair(this->x - 1, this->y)
+        };
+
+        int random = floor(rand() * adjacentCells.size());
+        int newX = adjacentCells[random].first;
+        int newY = adjacentCells[random].second;
+
+        if (newX >= 0 
+                && newX < world->WORLDSIZE 
+                && newY >= 0 
+                && newY < world->WORLDSIZE
+                && world->getAt(newX, newY) == nullptr) {
+            world->setAt(newX, newY, this);
+            world->setAt(this->x, this->y, nullptr);
+            this->x = newX;
+            this->y = newY;
+            breedTicks = 0;
+            return;
+        } else {
+            adjacentCells[random] = adjacentCells[adjacentCells.size() - 1];
+            adjacentCells.pop_back();
+        }
+    }
+
+    breedTicks++;
 }
 
 // Move. Every time step, if there is an adjacent Prey (up, down, left, or right),
@@ -28,7 +58,49 @@ void Predator::breed()
 // Note that a Predator cannot eat other Swoopies.
 void Predator::move()
 {
-    // Implementation of Predator's movement logic here
+    std::vector<std::pair<int, int>> adjacentCells = {
+        std::make_pair(this->x, this->y + 1),
+        std::make_pair(this->x, this->y - 1),
+        std::make_pair(this->x + 1, this->y),
+        std::make_pair(this->x - 1, this->y)
+    };
+
+    for (auto &cell : adjacentCells) {
+        if (cell.first >= 0 
+                && cell.first < world->WORLDSIZE 
+                && cell.second >= 0 
+                && cell.second < world->WORLDSIZE
+                && world->getAt(cell.first, cell.second) != nullptr
+                && world->getAt(cell.first, cell.second)->getType() == 1) {
+            world->setAt(cell.first, cell.second, this);
+            world->setAt(this->x, this->y, nullptr);
+            this->x = cell.first;
+            this->y = cell.second;
+            breedTicks = 0;
+            return;
+        }
+    }
+
+    int random = floor(rand() * adjacentCells.size());
+    int newX = adjacentCells[random].first;
+    int newY = adjacentCells[random].second;
+
+    if (newX >= 0 
+            && newX < world->WORLDSIZE 
+            && newY >= 0 
+            && newY < world->WORLDSIZE
+            && world->getAt(newX, newY) == nullptr) {
+        world->setAt(newX, newY, this);
+        world->setAt(this->x, this->y, nullptr);
+        this->x = newX;
+        this->y = newY;
+        breedTicks = 0;
+        starveTicks = 0;
+        return;
+    } else {
+        adjacentCells[random] = adjacentCells[adjacentCells.size() - 1];
+        adjacentCells.pop_back();
+    }
 }
 
 int Predator::getType()
@@ -42,7 +114,12 @@ int Predator::getType()
 // The Predator should then be removed from the grid of cells.
 bool Predator::starve()
 {
+    if (starveTicks >= 3) {
+        world->setAt(this->x, this->y, nullptr);
+        return true;
+    }
 
-    // Implementation of Predator's starvation logic here
+    starveTicks++;
+    return false;
 }
 
