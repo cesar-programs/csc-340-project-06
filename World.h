@@ -32,10 +32,10 @@ public:
     void setAt(int x, int y, Organism *org); // If organism is predator, add to Predators vector. If organism is prey, add to Preys vector.
     void Display();
     void SimulateOneStep(); // First call simulateOneStepPredators, then simulateOneStepPreys
-    void pushPredator(Organism* pred);
-    void pushPrey(Organism* prey);
-    void SimulateOneStepPredators();
-    void SimulateOneStepPreys();
+    void pushPredator(Organism* pred); // Adds predator to Predators vector
+    void pushPrey(Organism* prey); // Adds prey to Preys vector
+    void SimulateOneStepPredators(); // Simulates one step for all predators
+    void SimulateOneStepPreys(); // Simulates one step for all preys
 private:
     static constexpr int WORLDSIZE = 30;
     Organism* grid[WORLDSIZE][WORLDSIZE];
