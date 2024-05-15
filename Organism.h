@@ -10,6 +10,9 @@
  * The Organism has attributes defining its state and position within the World.
  */
 
+#ifndef ORGANISM_H
+#define ORGANISM_H
+
 #include "World.h"
 #include <vector>
 #include <iostream>
@@ -34,3 +37,5 @@ protected:
         World *world;                   // Pointer to the world
         std::vector<int> peripheral; // Vector to store the presence of a Prey / Predator / Empty in each of the four cardinal directions
 };
+
+#endif // ORGANISM_H

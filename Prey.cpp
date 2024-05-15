@@ -104,3 +104,8 @@ int Prey::getType()
 {
     return 1;
 }
+
+bool Prey::starve()
+{
+    return false;
+}

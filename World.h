@@ -9,6 +9,9 @@
  * and simulation step methods. The size of the grid is defined by the private constant WORLDSIZE.
  */
 
+#ifndef WORLD_H
+#define WORLD_H
+
 #include <vector>
 
 // These are forward declarations; they are used because World uses pointers to these classes, but does not need to know their internal details.
@@ -42,3 +45,5 @@ private:
     static constexpr int WORLDSIZE = 30;
     Organism* grid[WORLDSIZE][WORLDSIZE];
 };
+
+#endif // WORLD_H
