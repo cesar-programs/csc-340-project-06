@@ -23,7 +23,6 @@ public:
 	virtual void move() override;
 	virtual int getType() override;
 	virtual bool starve() override;
-	
 	// You can add more Predator-specific methods here if needed
 
 protected:

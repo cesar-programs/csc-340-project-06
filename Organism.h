@@ -26,6 +26,7 @@ public:
         virtual int getType() =0;       // Return if Predator or Prey
         virtual bool starve() = 0;      // Determine if organism starves
         virtual void checkPeripheral(); // Check the four cardinal directions for Prey / Predator / Empty
+        virtual std::vector<int> getPeripheral();   // Return the peripheral vector
 
 protected:
         int x,y;                        // Position in the world

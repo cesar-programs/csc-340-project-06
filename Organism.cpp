@@ -44,12 +44,32 @@ void Organism::checkPeripheral() {
     // Check the four cardinal directions for Prey / Predator / Empty
     // Prey = 1, Predator = 2, Empty / Out of bounds = 0 // Need to add conditional to check for out of bounds in other functions
     this->peripheral.clear();
-    this->peripheral.push_back(world->getAt(x, y - 1) ? world->getAt(x, y - 1)->getType(): 0); // Check up
-    this->peripheral.push_back(world->getAt(x, y + 1) ? world->getAt(x, y + 1)->getType(): 0); // Check down
-    this->peripheral.push_back(world->getAt(x - 1, y) ? world->getAt(x - 1, y)->getType(): 0); // Check left
-    this->peripheral.push_back(world->getAt(x + 1, y) ? world->getAt(x + 1, y)->getType(): 0); // Check right
-    std::cout << "Organism at (" << x << ", " << y << ") has the following peripheral: ";
-    for (auto & i : peripheral) {
-        std::cout << i << " ";
+    // Check up
+    if (y - 1 < 0) {
+        this->peripheral.push_back(-1);
+    } else {
+        this->peripheral.push_back(world->getAt(x, y - 1) ? world->getAt(x, y - 1)->getType() : 0);
     }
+    // Check down
+    if (y + 1 >= World::WORLDSIZE) {
+        this->peripheral.push_back(-1);
+    } else {
+        this->peripheral.push_back(world->getAt(x, y + 1) ? world->getAt(x, y + 1)->getType() : 0);
+    }
+    // Check left
+    if (x - 1 < 0) {
+        this->peripheral.push_back(-1);
+    } else {
+        this->peripheral.push_back(world->getAt(x - 1, y) ? world->getAt(x - 1, y)->getType() : 0);
+    }
+    // Check right
+    if (x + 1 >= World::WORLDSIZE) {
+        this->peripheral.push_back(-1);
+    } else {
+        this->peripheral.push_back(world->getAt(x + 1, y) ? world->getAt(x + 1, y)->getType() : 0);
+    }
+}
+
+std::vector<int> Organism::getPeripheral() {
+    return this->peripheral;
 }
