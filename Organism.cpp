@@ -53,3 +53,12 @@ void Organism::checkPeripheral() {
         std::cout << i << " ";
     }
 }
+
+bool Organism::operator==(const Organism &rhs)
+{
+    return x == rhs.x &&
+           y == rhs.y &&
+           moved == rhs.moved &&
+           breedTicks == rhs.breedTicks &&
+           world == rhs.world;
+}

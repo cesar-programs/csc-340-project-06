@@ -30,7 +30,7 @@ void World::setAt(int x, int y, Organism *org) {
 }
 
 void World::Display() {
-    // Implementation goes here
+
     for (auto & i : grid) {
         for (int j = 0; j < WORLDSIZE; j++) {
             if (i[j] == nullptr) {
@@ -49,23 +49,44 @@ void World::Display() {
 
 // During one turn, all the Swoopies should move before the Zoomis do.
 void World::SimulateOneStep() {
+    Predators = NewPredators;
     SimulateOneStepPredators();
+    Preys = NewPreys;
+    std::cout << "Preys: " << Preys.size() << std::endl;
     SimulateOneStepPreys();
     Display();
 }
 
 void World::pushPredator(Organism* pred) {
     // Implementation goes here
-    Predators.push_back(pred);
+    NewPredators.push_back(pred);
 }
 
 void World::pushPrey(Organism* prey) {
     // Implementation goes here
-    Preys.push_back(prey);
+    NewPreys.push_back(prey);
+}
+
+void World::removePredator(Organism* pred) {
+    for (int i = 0; i < NewPredators.size(); i++) {
+        if (NewPredators[i] == pred) {
+            NewPredators.erase(NewPredators.begin() + i);
+            return;
+        }
+    }
+}
+
+void World::removePrey(Organism* prey) {
+    std::cout << "removing prey..." << std::endl;
+    for (int i = 0; i < NewPreys.size(); i++) {
+        if (NewPreys[i] == prey) {
+            NewPreys.erase(NewPreys.begin() + i);
+            return;
+        }
+    }
 }
 
 void World::SimulateOneStepPredators() {
-    // Implementation goes here
     for (auto & pred : Predators) {
         pred->move();
         pred->breed();
@@ -74,7 +95,6 @@ void World::SimulateOneStepPredators() {
 }
 
 void World::SimulateOneStepPreys() {
-    // Implementation goes here
     for (auto & prey : Preys) {
         prey->move();
         prey->breed();
@@ -106,7 +126,9 @@ void World::InitializeGame() {
     std::cout << std::endl << "Initializing game with " << predCount << " predators and " << preyCount << " preys." << std::endl;
     
     Predators.reserve(predCount);
+    NewPredators.reserve(predCount);
     Preys.reserve(preyCount);
+    NewPreys.reserve(preyCount);
 
     for (int i = 0; i < predCount; i++) {
         int x = rand() % WORLDSIZE;

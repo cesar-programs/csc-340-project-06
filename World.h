@@ -26,7 +26,9 @@ class World
     friend class Prey;
 
     std::vector<Organism*> Predators;
+    std::vector<Organism*> NewPredators;
     std::vector<Organism*> Preys;
+    std::vector<Organism*> NewPreys;
 
 public:
     World();
@@ -37,6 +39,8 @@ public:
     void SimulateOneStep(); // First call simulateOneStepPredators, then simulateOneStepPreys
     void pushPredator(Organism* pred); // Adds predator to Predators vector
     void pushPrey(Organism* prey); // Adds prey to Preys vector
+    void removePredator(Organism* pred); // Removes predator from Predators vector
+    void removePrey(Organism* prey); // Removes prey from Preys vector
     void SimulateOneStepPredators(); // Simulates one step for all predators
     void SimulateOneStepPreys(); // Simulates one step for all preys
     void InitializeGame(); // Initializes the game by user inputting an amount of predators and preys

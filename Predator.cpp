@@ -9,27 +9,29 @@ Predator::Predator()
 Predator::Predator(World *world, int x, int y) : Organism(world, x, y)
 {
     world->setAt(x, y, this);
-    world->pushPrey(this);
+    world->pushPredator(this);
 }
 
 Predator::~Predator()
 {
     world->setAt(this->x, this->y, nullptr);
+    world->removePredator(this);
 }
 
 // Breed. If a Predator survives for eight time steps,
 // then at the end of the time step it will spawn off a new Predator in the same manner as the Prey.
 void Predator::breed()
 {
-    while (breedTicks >= 3) {
-        std::vector<std::pair<int, int>> adjacentCells = {
-            std::make_pair(this->x, this->y + 1),
-            std::make_pair(this->x, this->y - 1),
-            std::make_pair(this->x + 1, this->y),
-            std::make_pair(this->x - 1, this->y)
-        };
+    std::vector<std::pair<int, int>> adjacentCells = {
+        std::make_pair(this->x, this->y + 1),
+        std::make_pair(this->x, this->y - 1),
+        std::make_pair(this->x + 1, this->y),
+        std::make_pair(this->x - 1, this->y)
+    };
 
-        int random = floor(rand() * adjacentCells.size());
+    while (breedTicks >= 3) {
+
+        int random = rand() % adjacentCells.size();
         int newX = adjacentCells[random].first;
         int newY = adjacentCells[random].second;
 
@@ -41,12 +43,14 @@ void Predator::breed()
             world->setAt(newX, newY, new Predator(world, newX, newY));
             breedTicks = 0;
             return;
-        } else if (adjacentCells.size() == 0) {
-            breedTicks = 0;
-            return;
         } else {
             adjacentCells[random] = adjacentCells[adjacentCells.size() - 1];
             adjacentCells.pop_back();
+
+            if (adjacentCells.size() == 0) {
+                breedTicks = 0;
+                return;
+            }
         }
     }
 
@@ -73,18 +77,19 @@ void Predator::move()
                 && cell.second < world->WORLDSIZE
                 && world->getAt(cell.first, cell.second) != nullptr
                 && world->getAt(cell.first, cell.second)->getType() == 1) {
-
+            
             delete world->getAt(cell.first, cell.second);
+            std::cout << "Predator ate Prey at (" << cell.first << ", " << cell.second << ")" << std::endl;
             world->setAt(cell.first, cell.second, this);
             world->setAt(this->x, this->y, nullptr);
             this->x = cell.first;
             this->y = cell.second;
-            breedTicks = 0;
+            starveTicks = 0;
             return;
         }
     }
 
-    int random = floor(rand() * adjacentCells.size());
+    int random = rand() % adjacentCells.size();
     int newX = adjacentCells[random].first;
     int newY = adjacentCells[random].second;
 
@@ -97,8 +102,6 @@ void Predator::move()
         world->setAt(this->x, this->y, nullptr);
         this->x = newX;
         this->y = newY;
-        breedTicks = 0;
-        starveTicks = 0;
         return;
     } else {
         adjacentCells[random] = adjacentCells[adjacentCells.size() - 1];

@@ -29,7 +29,7 @@ public:
         virtual int getType() =0;       // Return if Predator or Prey
         virtual bool starve() = 0;      // Determine if organism starves
         virtual void checkPeripheral(); // Check the four cardinal directions for Prey / Predator / Empty
-
+        bool operator==(const Organism &rhs);
 protected:
         int x,y;                        // Position in the world
         bool moved;                     // Bool to indicate if moved this turn

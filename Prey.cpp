@@ -18,7 +18,9 @@ Prey::Prey(World *world, int x, int y) : Organism(world, x, y)
 
 Prey::~Prey()
 {
+    std::cout << "Prey getting eaten at (" << this->x << ", " << this->y << ")!" << std::endl;
     world->setAt(this->x, this->y, nullptr);
+    world->removePrey(this);
 }
 
 // Breed. If a Prey survives for three time steps,
@@ -36,7 +38,7 @@ void Prey::breed()
             std::make_pair(this->x - 1, this->y)
         };
 
-        int random = floor(rand() * adjacentCells.size());
+        int random = rand() % adjacentCells.size();
         int newX = adjacentCells[random].first;
         int newY = adjacentCells[random].second;
 
@@ -65,7 +67,7 @@ void Prey::breed()
 // move the Prey off the grid, then the Prey stays in the current cell.
 void Prey::move()
 {
-    int random = floor(rand() * 4);
+    int random = rand() % 4;
     int newX;
     int newY;
 
