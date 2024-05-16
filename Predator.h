@@ -16,7 +16,7 @@ class Predator : public Organism
 public:
 	Predator();
 	Predator(World *world, int x, int y);
-	virtual ~Predator();
+	~Predator();
 
 	// Implementing Organism's pure virtual functions
 	virtual void breed() override;

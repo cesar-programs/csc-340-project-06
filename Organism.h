@@ -34,6 +34,7 @@ protected:
         int x,y;                        // Position in the world
         bool moved;                     // Bool to indicate if moved this turn
         int breedTicks;                 // Number of ticks since breeding
+        int breedUpperBound;            // Number of ticks before breeding
         World *world;                   // Pointer to the world
         std::vector<int> peripheral; // Vector to store the presence of a Prey / Predator / Empty in each of the four cardinal directions
 };

@@ -12,6 +12,7 @@ Prey::Prey()
 
 Prey::Prey(World *world, int x, int y) : Organism(world, x, y)
 {
+    Prey::breedUpperBound = 3;
     world->setAt(x, y, this);
     world->pushPrey(this);
 }
@@ -30,13 +31,14 @@ Prey::~Prey()
 // Once an offspring is produced,  a Prey cannot produce an offspring until three more time steps have elapsed.
 void Prey::breed()
 {
+    std::vector<std::pair<int, int>> adjacentCells = {
+        std::make_pair(this->x, this->y + 1),
+        std::make_pair(this->x, this->y - 1),
+        std::make_pair(this->x + 1, this->y),
+        std::make_pair(this->x - 1, this->y)
+    };
+
     while (breedTicks >= 3) {
-        std::vector<std::pair<int, int>> adjacentCells = {
-            std::make_pair(this->x, this->y + 1),
-            std::make_pair(this->x, this->y - 1),
-            std::make_pair(this->x + 1, this->y),
-            std::make_pair(this->x - 1, this->y)
-        };
 
         int random = rand() % adjacentCells.size();
         int newX = adjacentCells[random].first;
@@ -47,15 +49,17 @@ void Prey::breed()
                 && newY >= 0 
                 && newY < world->WORLDSIZE
                 && world->getAt(newX, newY) == nullptr) {
-            world->setAt(newX, newY, this);
-            world->setAt(this->x, this->y, nullptr);
-            this->x = newX;
-            this->y = newY;
+            world->setAt(newX, newY, new Prey(world, newX, newY));
             breedTicks = 0;
             return;
         } else {
             adjacentCells[random] = adjacentCells[adjacentCells.size() - 1];
             adjacentCells.pop_back();
+
+            if (adjacentCells.size() == 0) {
+                breedTicks = 0;
+                return;
+            }
         }
     }
 
@@ -67,39 +71,7 @@ void Prey::breed()
 // move the Prey off the grid, then the Prey stays in the current cell.
 void Prey::move()
 {
-    int random = rand() % 4;
-    int newX;
-    int newY;
-
-    switch (random) {
-    case 0:
-        newX = this->x;
-        newY = this->y + 1;
-        break;
-    case 1:
-        newX = this->x;
-        newY = this->y - 1;
-        break;
-    case 2:
-        newX = this->x + 1;
-        newY = this->y;
-        break;
-    case 3:
-        newX = this->x - 1;
-        newY = this->y;
-        break;
-    }
-
-    if (newX >= 0 
-            && newX < world->WORLDSIZE 
-            && newY >= 0 
-            && newY < world->WORLDSIZE
-            && world->getAt(newX, newY) == nullptr) {
-        world->setAt(newX, newY, this);
-        world->setAt(this->x, this->y, nullptr);
-        this->x = newX;
-        this->y = newY;
-    }
+    Organism::move();
 }
 
 int Prey::getType()

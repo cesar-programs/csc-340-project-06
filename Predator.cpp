@@ -8,12 +8,14 @@ Predator::Predator()
 
 Predator::Predator(World *world, int x, int y) : Organism(world, x, y)
 {
+    breedUpperBound = 8;
     world->setAt(x, y, this);
     world->pushPredator(this);
 }
 
 Predator::~Predator()
 {
+    std::cout << "Predator starved at (" << this->x << ", " << this->y << ")!" << std::endl;
     world->setAt(this->x, this->y, nullptr);
     world->removePredator(this);
 }
@@ -29,7 +31,7 @@ void Predator::breed()
         std::make_pair(this->x - 1, this->y)
     };
 
-    while (breedTicks >= 3) {
+    while (breedTicks >= 8) {
 
         int random = rand() % adjacentCells.size();
         int newX = adjacentCells[random].first;
@@ -89,24 +91,7 @@ void Predator::move()
         }
     }
 
-    int random = rand() % adjacentCells.size();
-    int newX = adjacentCells[random].first;
-    int newY = adjacentCells[random].second;
-
-    if (newX >= 0 
-            && newX < world->WORLDSIZE 
-            && newY >= 0 
-            && newY < world->WORLDSIZE
-            && world->getAt(newX, newY) == nullptr) {
-        world->setAt(newX, newY, this);
-        world->setAt(this->x, this->y, nullptr);
-        this->x = newX;
-        this->y = newY;
-        return;
-    } else {
-        adjacentCells[random] = adjacentCells[adjacentCells.size() - 1];
-        adjacentCells.pop_back();
-    }
+    Organism::move();
 }
 
 int Predator::getType()
@@ -121,7 +106,7 @@ int Predator::getType()
 bool Predator::starve()
 {
     if (starveTicks >= 3) {
-        world->setAt(this->x, this->y, nullptr);
+        delete this;
         return true;
     }
 

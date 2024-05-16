@@ -29,10 +29,31 @@ Organism::~Organism()
 // Definitions for breed, move, getType, and starve will go into derived classes
 void Organism::move() {
 
-} // Overriden in derived classes
+    std::vector<std::pair<int, int>> adjacentCells = {
+        std::make_pair(this->x, this->y + 1),
+        std::make_pair(this->x, this->y - 1),
+        std::make_pair(this->x + 1, this->y),
+        std::make_pair(this->x - 1, this->y)
+    };
+
+    int random = rand() % adjacentCells.size();
+    int newX = adjacentCells[random].first;
+    int newY = adjacentCells[random].second;
+
+    if (newX >= 0 
+            && newX < world->WORLDSIZE 
+            && newY >= 0 
+            && newY < world->WORLDSIZE
+            && world->getAt(newX, newY) == nullptr) {
+        world->setAt(newX, newY, this);
+        world->setAt(this->x, this->y, nullptr);
+        this->x = newX;
+        this->y = newY;
+    }
+}
 
 void Organism::breed() {
-
+    
 } // Overriden in derived classes
 
 int Organism::getType() {
