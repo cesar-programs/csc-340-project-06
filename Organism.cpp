@@ -20,15 +20,15 @@ Organism::Organism(World *world, int x, int y)
     breedTicks = 0; // Set breedTicks to 0
 }
 
-Organism::~Organism() 
+Organism::~Organism()
 {
-
-    // Implementation goes here
+    // Override in derived classes
 }
 
 // Definitions for breed, move, getType, and starve will go into derived classes
 void Organism::move() {
 
+    // Define the four directions to move
     std::vector<std::pair<int, int>> adjacentCells = {
         std::make_pair(this->x, this->y + 1),
         std::make_pair(this->x, this->y - 1),
@@ -36,10 +36,13 @@ void Organism::move() {
         std::make_pair(this->x - 1, this->y)
     };
 
+
+    // Randomly select a cell to move to
     int random = rand() % adjacentCells.size();
     int newX = adjacentCells[random].first;
     int newY = adjacentCells[random].second;
 
+    // Check if the new cell is within bounds and empty
     if (newX >= 0 
             && newX < world->WORLDSIZE 
             && newY >= 0 
@@ -50,6 +53,7 @@ void Organism::move() {
         this->x = newX;
         this->y = newY;
     }
+
 }
 
 void Organism::breed() {
@@ -83,3 +87,4 @@ bool Organism::operator==(const Organism &rhs)
            breedTicks == rhs.breedTicks &&
            world == rhs.world;
 }
+

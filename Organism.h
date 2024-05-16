@@ -23,7 +23,7 @@ friend class World;                     // Allow world to affect organism
 public:
         Organism();
         Organism(World *world, int x, int y);
-        ~Organism();
+        virtual ~Organism();
         virtual void breed() = 0;       // Whether or not to breed
         virtual void move() = 0;        // Rules to move the critter
         virtual int getType() =0;       // Return if Predator or Prey

@@ -65,6 +65,7 @@ void Predator::breed()
 // Note that a Predator cannot eat other Swoopies.
 void Predator::move()
 {
+    // Check for adjacent cells
     std::vector<std::pair<int, int>> adjacentCells = {
         std::make_pair(this->x, this->y + 1),
         std::make_pair(this->x, this->y - 1),
@@ -72,14 +73,16 @@ void Predator::move()
         std::make_pair(this->x - 1, this->y)
     };
 
-    for (auto &cell : adjacentCells) {
-        if (cell.first >= 0 
-                && cell.first < world->WORLDSIZE 
-                && cell.second >= 0 
-                && cell.second < world->WORLDSIZE
-                && world->getAt(cell.first, cell.second) != nullptr
-                && world->getAt(cell.first, cell.second)->getType() == 1) {
-            
+    // Check if there is a Prey in an adjacent cell
+    for (auto &cell : adjacentCells)
+    {
+        if (cell.first >= 0
+            && cell.first < world->WORLDSIZE
+            && cell.second >= 0
+            && cell.second < world->WORLDSIZE
+            && world->getAt(cell.first, cell.second) != nullptr
+            && world->getAt(cell.first, cell.second)->getType() == 1)
+        {
             delete world->getAt(cell.first, cell.second);
             std::cout << "Predator ate Prey at (" << cell.first << ", " << cell.second << ")" << std::endl;
             world->setAt(cell.first, cell.second, this);
