@@ -9,7 +9,10 @@ World::World() {
 }
 
 World::~World() {
-    // Implementation goes here
+    this->NewPredators.clear();
+    this->Predators.clear();
+    this->NewPreys.clear();
+    this->Preys.clear();
 }
 
 // Return the organism at a given location in the grid
@@ -50,6 +53,7 @@ void World::Display() {
 // During one turn, all the Swoopies should move before the Zoomis do.
 void World::SimulateOneStep() {
     Predators = NewPredators;
+    std::cout << "Predator: " << Predators.size() << std::endl;
     SimulateOneStepPredators();
     Preys = NewPreys;
     std::cout << "Preys: " << Preys.size() << std::endl;
@@ -58,12 +62,10 @@ void World::SimulateOneStep() {
 }
 
 void World::pushPredator(Organism* pred) {
-    // Implementation goes here
     NewPredators.push_back(pred);
 }
 
 void World::pushPrey(Organism* prey) {
-    // Implementation goes here
     NewPreys.push_back(prey);
 }
 
@@ -77,7 +79,6 @@ void World::removePredator(Organism* pred) {
 }
 
 void World::removePrey(Organism* prey) {
-    std::cout << "removing prey..." << std::endl;
     for (int i = 0; i < NewPreys.size(); i++) {
         if (NewPreys[i] == prey) {
             NewPreys.erase(NewPreys.begin() + i);
@@ -102,9 +103,13 @@ void World::SimulateOneStepPreys() {
 }
 
 void World::GameLoop() {
+    int count = 1;
+
     while (true) {
         std::cout << "Press Enter to simulate one step." << std::endl;
         std::cin.get();
+        std::cout << "Turn: " << count << std::endl;
+        count++;
         SimulateOneStep();
     }
 }

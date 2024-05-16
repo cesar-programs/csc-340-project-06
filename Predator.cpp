@@ -15,7 +15,6 @@ Predator::Predator(World *world, int x, int y) : Organism(world, x, y)
 
 Predator::~Predator()
 {
-    std::cout << "Predator starved at (" << this->x << ", " << this->y << ")!" << std::endl;
     world->setAt(this->x, this->y, nullptr);
     world->removePredator(this);
 }
@@ -84,7 +83,6 @@ void Predator::move()
             && world->getAt(cell.first, cell.second)->getType() == 1)
         {
             delete world->getAt(cell.first, cell.second);
-            std::cout << "Predator ate Prey at (" << cell.first << ", " << cell.second << ")" << std::endl;
             world->setAt(cell.first, cell.second, this);
             world->setAt(this->x, this->y, nullptr);
             this->x = cell.first;

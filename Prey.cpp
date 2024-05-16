@@ -19,7 +19,6 @@ Prey::Prey(World *world, int x, int y) : Organism(world, x, y)
 
 Prey::~Prey()
 {
-    std::cout << "Prey getting eaten at (" << this->x << ", " << this->y << ")!" << std::endl;
     world->setAt(this->x, this->y, nullptr);
     world->removePrey(this);
 }
