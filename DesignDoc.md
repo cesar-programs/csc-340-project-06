@@ -99,3 +99,16 @@ Where:
 n = number of predators
 m = number of preys
 WORLDSIZE = dimensions of the world grid
+
+## Contributors
+
+Avinh Huynh:
+- Organisms (predator and prey) functions
+- Organisms integration with world functions
+Randolf Uy:
+- Planning/Design
+- World accessor and mutator functions
+Cesar A. Herrera:
+- Project initialization
+- Debugging
+- Documentation
